@@ -48,7 +48,7 @@ unsafe extern "C" fn _start() -> ! {
     // 在 .bss.uninit 段中分配栈空间
     #[unsafe(link_section = ".bss.uninit")]
     static mut STACK: [u8; STACK_SIZE] = [0u8; STACK_SIZE];
-
+    //把汇编嵌入到rust函数的宏
     core::arch::naked_asm!(
         "la sp, {stack} + {stack_size}", // 将 sp 设置为栈顶地址
         "j  {main}",                      // 跳转到 rust_main
