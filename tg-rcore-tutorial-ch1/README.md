@@ -87,7 +87,7 @@ rustc --version    # 应显示 rustc 1.xx.x
 cargo --version    # 应显示 cargo 1.xx.x
 ```
 
-### 1.2 添加 RISC-V 64 编译目标
+### 1.2 添加 RISC-V 64 编译目标rustc 
 
 由于 tg-rcore-tutorial-ch1 是面向 RISC-V 64 裸机平台的程序，需要添加对应的编译目标：
 
@@ -315,7 +315,9 @@ QEMU 退出
 在裸机环境中，没有操作系统帮我们设置栈。`_start` 是一个**裸函数**（`#[unsafe(naked)]`），它不会生成函数序言（prologue）和尾声（epilogue），可以在没有栈的情况下执行。它做的第一件事就是设置栈指针 `sp`，然后跳转到 Rust 函数 `rust_main`：
 
 ```rust
+//告诉编译器这是“裸函数”，不安全，编译器不用生成标准的函数序言和尾声，也不会
 #[unsafe(naked)]
+//告诉编译器在链接时不要进行名字改编，直接导出原始符号名
 #[unsafe(no_mangle)]
 #[unsafe(link_section = ".text.entry")]
 unsafe extern "C" fn _start() -> ! {
