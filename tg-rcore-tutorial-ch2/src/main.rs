@@ -215,6 +215,7 @@ mod impls {
     impl tg_syscall::IO for SyscallContext {
         fn write(
             &self,
+            //caller变量在此命名后却没有再使用，违背rust编译器检查，加上“_”下划线可避免报错，也提升可读性。
             _caller: tg_syscall::Caller,
             fd: usize,
             buf: usize,
